@@ -1,0 +1,30 @@
+#!/usr/bin/fish
+
+set day $argv[1]
+
+if test -z $day
+    echo "Must provide day"
+    exit 1
+end
+
+if not test -e ./$day
+    echo "Dir for day $day does not exist"
+    exit 1
+end
+
+if not test -e ./$day/input.txt
+    if not curl -b session=(cat ./.session) https://adventofcode.com/2022/day/$day/input -o ./$day/input.txt -f -sS
+        echo "Failed to download"
+        exit 1
+    end
+end
+
+clang++ ./$day/*.cpp ./shared/*.cpp -o ./$day/day$day.out
+
+if [ $argv[3] ]; and test $argv[3] = "--debug"
+    set input "./debug.txt";
+else
+    set input "./$day/input.txt"
+end
+
+./$day/day$day.out $argv[2] $input
