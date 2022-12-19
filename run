@@ -19,7 +19,7 @@ if not test -e ./$day/input.txt
     end
 end
 
-clang++ ./$day/*.cpp ./shared/*.cpp -o ./$day/day$day.out || exit 1
+clang++ -std=c++20 ./$day/*.cpp ./shared/*.cpp -o ./$day/day$day.out || exit 1
 
 if [ $argv[3] ]; and test $argv[3] = "--debug"
     set input "./debug.txt";
