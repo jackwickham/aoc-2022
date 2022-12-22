@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <chrono>
 #include "base.hpp"
 
 int main(int argc, char** argv) {
@@ -7,6 +8,8 @@ int main(int argc, char** argv) {
         std::cerr << "Expected 3 arguments, found " << argc << std::endl;
         return 1;
     }
+
+    auto start = std::chrono::steady_clock::now();
 
     std::ifstream input (argv[2]);
 
@@ -25,4 +28,7 @@ int main(int argc, char** argv) {
         std::cerr << "Unknown part " << argv[1] << std::endl;
         return 1;
     }
+
+    auto duration = std::chrono::steady_clock::now() - start;
+    std::cout << "Duration: " << std::chrono::duration_cast<std::chrono::milliseconds>(duration) << std::endl;
 }
