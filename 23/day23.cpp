@@ -25,7 +25,8 @@ template<> struct std::hash<Point> {
     std::size_t operator()(Point const& p) const noexcept {
         std::size_t h1 = std::hash<int>{}(p.x);
         std::size_t h2 = std::hash<int>{}(p.y);
-        return h1 ^ (h2 << 1);
+        // https://www.boost.org/doc/libs/1_55_0/doc/html/hash/reference.html#boost.hash_combine
+        return h1 ^ (h2 + 0x9e3779b9 + (h1 << 6) + (h1 >> 2));
     }
 };
 
